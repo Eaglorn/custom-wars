@@ -37,7 +37,7 @@ internal class EntityShield(color: Color, xMin: Int, xMax: Int) : Entity(color) 
                 target = e
             }
         }
-        moveAlly()
+        move()
         if (magazine > 0) {
             CustomWars.bullet.stream().filter { e -> this.faction !== e.faction && e.life }.forEach { e ->
                 if (magazine > 0) {

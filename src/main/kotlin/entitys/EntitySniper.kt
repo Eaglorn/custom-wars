@@ -38,7 +38,7 @@ internal class EntitySniper(color: Color, xMin: Int, xMax: Int) : Entity(color) 
                 target = e
             }
         }
-        moveEnemy()
+        move()
         if (target != null) {
             if (target!!.life) {
                 if (Point2D.distance(x, y, target!!.x, target!!.y) <= radiusInteraction) {

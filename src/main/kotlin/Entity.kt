@@ -36,7 +36,7 @@ internal open class Entity(color: Color) {
         bullet.faction = faction
     }
 
-    fun moveEnemy() {
+    fun move() {
         if (target != null) {
             val distance = Point2D.distance(x, y, target!!.x, target!!.y)
             if (distance <= radiusInteraction - 2) {
@@ -44,20 +44,7 @@ internal open class Entity(color: Color) {
             } else {
                 speedCurrent -= speedMax * speedAcceleration
             }
-            moved(Point2D.distance(0.0, y, 0.0, target!!.y) / distance, Point2D.distance(x, 0.0, target!!.x, 0.0) / distance)
-        }
-        stopMovedScreen()
-    }
-
-    fun moveAlly() {
-        if (target != null) {
-            val distance = Point2D.distance(x, y, target!!.x, target!!.y)
-            if (distance <= 10) {
-                speedCurrent += speedMax * speedAcceleration
-            } else {
-                speedCurrent -= speedMax * speedAcceleration
-            }
-            moved(Point2D.distance(0.0, y, 0.0, target!!.y) / distance, Point2D.distance(x, 0.0, target!!.x, 0.0) / distance)
+            moved(Point2D.distance(x, 0.0, target!!.x, 0.0) / distance, Point2D.distance(0.0, y, 0.0, target!!.y) / distance)
         }
         stopMovedScreen()
     }

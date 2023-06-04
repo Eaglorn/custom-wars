@@ -34,7 +34,7 @@ internal class EntityRepair(color: Color, xMin: Int, xMax: Int) : Entity(color) 
                 target = e
             }
         }
-        moveAlly()
+        move()
         if (target != null) {
             if (target!!.life) {
                 if (Point2D.distance(x, y, target!!.x, target!!.y) <= radiusInteraction) {
