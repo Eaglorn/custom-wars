@@ -36,80 +36,51 @@ internal open class Entity(color: Color) {
         bullet.faction = faction
     }
 
-    private fun speedMax() {
-        if (speedCurrent > speedMax) {
-            speedCurrent = speedMax
-        } else if (speedCurrent < -speedMax) {
-            speedCurrent = -speedMax
-        }
-    }
-
     fun moveEnemy() {
         if (target != null) {
             val distance = Point2D.distance(x, y, target!!.x, target!!.y)
-            val distanceX = Point2D.distance(x, 0.0, target!!.x, 0.0)
-            val distanceY = Point2D.distance(0.0, y, 0.0, target!!.y)
-            val speedX = distanceX / distance
-            val speedY = distanceY / distance
             if (distance <= radiusInteraction - 2) {
                 speedCurrent += speedMax * speedAcceleration
             } else {
                 speedCurrent -= speedMax * speedAcceleration
             }
-            speedMax()
-            if (x > target!!.x) {
-                x += speedX * speedCurrent
-            } else {
-                x -= speedX * speedCurrent
-            }
-            if (y > target!!.y) {
-                y += speedY * speedCurrent
-            } else {
-                y -= speedY * speedCurrent
-            }
+            moved(Point2D.distance(0.0, y, 0.0, target!!.y) / distance, Point2D.distance(x, 0.0, target!!.x, 0.0) / distance)
         }
-        if (x > CustomWars.WIDTH) {
-            x = CustomWars.WIDTH.toDouble()
-            speedCurrent = 0.0f
-        }
-        if (x < 0) {
-            x = 0.0
-            speedCurrent = 0.0f
-        }
-        if (y > CustomWars.HEIGHT) {
-            y = CustomWars.HEIGHT.toDouble()
-            speedCurrent = 0.0f
-        }
-        if (y < 0) {
-            y = 0.0
-            speedCurrent = 0.0f
-        }
+        stopMovedScreen()
     }
 
     fun moveAlly() {
         if (target != null) {
             val distance = Point2D.distance(x, y, target!!.x, target!!.y)
-            val distanceX = Point2D.distance(x, 0.0, target!!.x, 0.0)
-            val distanceY = Point2D.distance(0.0, y, 0.0, target!!.y)
-            val speedX = distanceX / distance
-            val speedY = distanceY / distance
             if (distance <= 10) {
                 speedCurrent += speedMax * speedAcceleration
             } else {
                 speedCurrent -= speedMax * speedAcceleration
             }
-            speedMax()
-            if (x > target!!.x) {
-                x += speedX * speedCurrent
-            } else {
-                x -= speedX * speedCurrent
-            }
-            if (y > target!!.y) {
-                y += speedY * speedCurrent
-            } else {
-                y -= speedY * speedCurrent
-            }
+            moved(Point2D.distance(0.0, y, 0.0, target!!.y) / distance, Point2D.distance(x, 0.0, target!!.x, 0.0) / distance)
         }
+        stopMovedScreen()
+    }
+
+    private fun moved(speedX: Double, speedY: Double) {
+        if (speedCurrent > speedMax) {
+            speedCurrent = speedMax
+        } else if (speedCurrent < -speedMax) {
+            speedCurrent = -speedMax
+        }
+        if (x > target!!.x) {
+            x += speedX * speedCurrent
+        } else {
+            x -= speedX * speedCurrent
+        }
+        if (y > target!!.y) {
+            y += speedY * speedCurrent
+        } else {
+            y -= speedY * speedCurrent
+        }
+    }
+
+    private fun stopMovedScreen() {
         if (x > CustomWars.WIDTH) {
             x = CustomWars.WIDTH.toDouble()
             speedCurrent = 0.0f
